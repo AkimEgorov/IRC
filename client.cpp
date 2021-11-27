@@ -40,3 +40,100 @@ bool IRCClient::Login(std::string nick, std::string user, std::string password)
 
     return false;
 }
+
+void IRCClient::Parse(std::string data)
+{
+    std::string original(data);
+    std::string prefix;
+    std::string nick;
+    std::string user;
+    std::string host;
+
+    // if command has prefix
+    if (data.substr(0, 1) == ":")
+    {
+        if (data == "")
+            return;
+
+        prefix = data.substr(1, data.find(" ") - 1);
+
+        if (prefix.find("@") != std::string::npos)
+        {
+            size_t start = 0, end = 0;
+            std::vector<std::string> tokens;
+
+            while ((end = prefix.find('@', start)) != std::string::npos)
+            {
+                tokens.push_back(prefix.substr(start, end - start));
+                start = end + 1;
+            }
+            tokens.push_back(prefix.substr(start));
+
+            nick = tokens.at(0);
+            host = tokens.at(1);
+        }
+
+        if (nick != "" && nick.find("!") != std::string::npos)
+        {
+            std::vector<std::string> tokens;
+            tokens = split(nick, '!');
+
+            size_t start = 0, end = 0;
+            while ((end = nick.find('!', start)) != std::string::npos)
+            {
+                tokens.push_back(nick.substr(start, end - start));
+                start = end + 1;
+            }
+            tokens.push_back(nick.substr(start));
+
+            nick = tokens.at(0);
+            user = tokens.at(1);
+        }
+        data = data.substr(data.find(" ") + 1);
+    }
+
+    std::string command = data.substr(0, data.find(" "));
+    std::transform(command.begin(), command.end(), command.begin(), towupper);
+    if (data.find(" ") != std::string::npos)
+        data = data.substr(data.find(" ") + 1);
+    else
+        data = "";
+
+    std::vector<std::string> parameters;
+
+    if (data != "")
+    {
+        if (data.substr(0, 1) == ":")
+            parameters.push_back(data.substr(1));
+        else
+        {
+            size_t pos1 = 0, pos2;
+            while ((pos2 = data.find(" ", pos1)) != std::string::npos)
+            {
+                parameters.push_back(data.substr(pos1, pos2 - pos1));
+                pos1 = pos2 + 1;
+                if (data.substr(pos1, 1) == ":")
+                {
+                    parameters.push_back(data.substr(pos1 + 1));
+                    break;
+                }
+            }
+            if (parameters.empty())
+                parameters.push_back(data);
+        }
+    }
+
+    if (command == "ERROR")
+    {
+        std::cout << original << std::endl;
+        Disconnect();
+        return;
+    }
+
+    if (command == "PING")
+    {
+        std::cout << "Ping? Pong!" << std::endl;
+        SendIRC("PONG :" + parameters.at(0));
+        return;
+    }
+}

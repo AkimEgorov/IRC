@@ -18,6 +18,7 @@ public:
 
     bool SendIRC(std::string /*data*/);
     bool Login(std::string /*nick*/, std::string /*user*/, std::string /*password*/ = std::string());
+    void Parse(std::string /*data*/);
 
 
 private:
