@@ -41,6 +41,20 @@ bool IRCClient::Login(std::string nick, std::string user, std::string password)
     return false;
 }
 
+void IRCClient::ReceiveData()
+{
+    std::string buffer = _socket.ReceiveData();
+
+    std::string line;
+    std::istringstream iss(buffer);
+    while (getline(iss, line))
+    {
+        if (line.find("\r") != std::string::npos)
+            line = line.substr(0, line.size() - 1);
+        Parse(line);
+    }
+}
+
 void IRCClient::Parse(std::string data)
 {
     std::string original(data);
@@ -76,7 +90,6 @@ void IRCClient::Parse(std::string data)
         if (nick != "" && nick.find("!") != std::string::npos)
         {
             std::vector<std::string> tokens;
-            tokens = split(nick, '!');
 
             size_t start = 0, end = 0;
             while ((end = nick.find('!', start)) != std::string::npos)

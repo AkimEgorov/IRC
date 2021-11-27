@@ -61,3 +61,19 @@ bool IRCSocket::SendData(char const* data)
 
     return true;
 }
+
+std::string IRCSocket::ReceiveData()
+{
+    char buffer[MAXDATASIZE];
+
+    memset(buffer, 0, MAXDATASIZE);
+
+    int bytes = recv(_socket, buffer, MAXDATASIZE - 1, 0);
+
+    if (bytes > 0)
+        return std::string(buffer);
+    else
+        Disconnect();
+
+    return "";
+}

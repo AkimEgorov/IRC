@@ -25,6 +25,7 @@ public:
     bool Connected() { return _connected; };
 
     bool SendData(char const* data);
+    std::string ReceiveData();
 
 private:
     int _socket;

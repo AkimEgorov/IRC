@@ -5,6 +5,13 @@
 #include <algorithm>
 #include "client.h"
 
+volatile bool running;
+
+void signalHandler(int signal)
+{
+    running = false;
+}
+
 int main(int argc, char* argv[])
 {
     if (argc < 3)
@@ -36,6 +43,11 @@ int main(int argc, char* argv[])
             if (client.Login(nick, user))
             {
                 std::cout << "Logged." << std::endl;
+                running = true;
+                signal(SIGINT, signalHandler);
+
+                while (client.Connected() && running)
+                    client.ReceiveData();
             }
 
             if (client.Connected())
