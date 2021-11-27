@@ -12,16 +12,6 @@ bool IRCSocket::Init()
         return false;
     }
 
-    int on = 1;
-    if (setsockopt(_socket, SOL_SOCKET, SO_REUSEADDR, (char const*)&on, sizeof(on)) == -1)
-    {
-        std::cout << "Invalid socket." << std::endl;
-        return false;
-    }
-
-    fcntl(_socket, F_SETFL, O_NONBLOCK);
-    fcntl(_socket, F_SETFL, O_ASYNC);
-
     return true;
 }
 
