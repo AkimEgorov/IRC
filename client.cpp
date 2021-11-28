@@ -2,6 +2,7 @@
 #include <algorithm>
 #include "socket.h"
 #include "client.h"
+#include "handler.h"
 
 bool IRCClient::InitSocket()
 {
@@ -58,50 +59,12 @@ void IRCClient::ReceiveData()
 void IRCClient::Parse(std::string data)
 {
     std::string original(data);
-    std::string prefix;
-    std::string nick;
-    std::string user;
-    std::string host;
+    IRCCommandPrefix cmdPrefix;
 
     // if command has prefix
     if (data.substr(0, 1) == ":")
     {
-        if (data == "")
-            return;
-
-        prefix = data.substr(1, data.find(" ") - 1);
-
-        if (prefix.find("@") != std::string::npos)
-        {
-            size_t start = 0, end = 0;
-            std::vector<std::string> tokens;
-
-            while ((end = prefix.find('@', start)) != std::string::npos)
-            {
-                tokens.push_back(prefix.substr(start, end - start));
-                start = end + 1;
-            }
-            tokens.push_back(prefix.substr(start));
-
-            nick = tokens.at(0);
-            host = tokens.at(1);
-        }
-
-        if (nick != "" && nick.find("!") != std::string::npos)
-        {
-            std::vector<std::string> tokens;
-
-            size_t start = 0, end = 0;
-            while ((end = nick.find('!', start)) != std::string::npos)
-            {
-                tokens.push_back(nick.substr(start, end - start));
-                start = end + 1;
-            }
-            tokens.push_back(nick.substr(start));
-
-            nick = tokens.at(0);
-            user = tokens.at(1);
-        }
+        cmdPrefix.Parse(data);
         data = data.substr(data.find(" ") + 1);
     }
 
@@ -148,5 +111,15 @@ void IRCClient::Parse(std::string data)
         std::cout << "Ping? Pong!" << std::endl;
         SendIRC("PONG :" + parameters.at(0));
         return;
+    }
+
+    IRCMessage ircMessage(command, cmdPrefix, parameters);
+
+    // Default handler
+    int commandIndex = GetCommandHandler(command);
+    if (commandIndex < N_IRC_CMD)
+    {
+        cmdHandler& cmdHandler = ircCommandTable[commandIndex];
+        (this->*cmdHandler.handler)(ircMessage);
     }
 }

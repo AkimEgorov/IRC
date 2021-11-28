@@ -2,9 +2,9 @@
 // Created by itmoster on 27.11.2021.
 //
 
-#include "IRCHandler.h"
+#include "handler.h"
 
-IRCCommandHandler ircCommandTable[NUM_IRC_CMDS] =
+cmdHandler ircCommandTable[N_IRC_CMD] =
         {
                 { "PRIVMSG",            &IRCClient::HPrivMsg                   },
                 { "JOIN",               &IRCClient::HChannelJoin               },
@@ -32,7 +32,7 @@ IRCCommandHandler ircCommandTable[NUM_IRC_CMDS] =
                 { "439",                &IRCClient::HServerMessage             },
         };
 
-void IRCClient::HandlePrivMsg(IRCMessage message)
+void IRCClient::HPrivMsg(IRCMessage message)
 {
     std::string to = message.parameters.at(0);
     std::string text = message.parameters.at(message.parameters.size() - 1);
@@ -77,11 +77,20 @@ void IRCClient::HNicknameCurrent(IRCMessage message)
 
 void IRCClient::HServerMessage(IRCMessage message)
 {
-    if( message.parameters.empty() )
+    if (message.parameters.empty())
+        return;
+
+    std::vector<std::string>::const_iterator itr = message.parameters.begin();
+    ++itr; // skip the first parameter (our nick)
+    for (; itr != message.parameters.end(); ++itr)
+        std::cout << *itr << " ";
+    std::cout << std::endl;
+    /*if (message.parameters.empty())
         return;
 
     for (int i = message.parameters.begin(); i != message.parameters.end(); i++) {
         std::cout << *i << " ";
     }
     std::cout << std::endl;
+    */
 }

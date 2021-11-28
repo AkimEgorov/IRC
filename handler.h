@@ -5,16 +5,16 @@
 #ifndef IRC_HANDLER_H
 #define IRC_HANDLER_H
 
-#include "handler.h"
+#include "client.h"
 
-#define N_IRC_CMD 24;
+#define N_IRC_CMD 24
 
 struct cmdHandler {
     std::string command;
     void (IRCClient::*handler)(IRCMessage /*message*/);
 };
 
-IRCCommandHandler ircCommandTable[N_IRC_CMD];
+extern cmdHandler ircCommandTable[N_IRC_CMD];
 
 inline int GetCommandHandler(std::string command)
 {
@@ -24,7 +24,7 @@ inline int GetCommandHandler(std::string command)
             return i;
     }
 
-    return NUM_IRC_CMDS;
+    return N_IRC_CMD;
 }
 
 
