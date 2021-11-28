@@ -3,7 +3,7 @@
 
 
 #include <pthread.h>
-typedef void* (*ThreadFunction)(void* /*param*/);
+typedef void* (*ThreadFunction)(void*);
 typedef void* ThreadReturn;
 typedef pthread_t ThreadId;
 
@@ -16,7 +16,7 @@ public:
     Thread();
     ~Thread();
 
-    bool Start(ThreadFunction /*callback*/, void* /*param*/);
+    bool Start(ThreadFunction, void* );    //  creates a new stream
 };
 
 #endif

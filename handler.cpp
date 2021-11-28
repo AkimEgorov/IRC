@@ -1,13 +1,10 @@
-//
-// Created by itmoster on 27.11.2021.
-//
-
 #include "handler.h"
 
 cmdHandler ircCommandTable[N_IRC_CMD] =
         {
                 { "PRIVMSG",            &IRCClient::HPrivMsg                   },
-                { "JOIN",               &IRCClient::HChannelJoin               },
+                { "JOIN",               &IRCClient::HChannelJoinPart           },
+                { "PART",               &IRCClient::HChannelJoinPart           },
                 { "NICK",               &IRCClient::HNickChange                },
                 { "QUIT",               &IRCClient::HUserQuit                  },
                 { "353",                &IRCClient::HChannelUList              },
@@ -44,7 +41,7 @@ void IRCClient::HPrivMsg(IRCMessage message)
 }
 
 
-void IRCClient::HChannelJoin(IRCMessage message)
+void IRCClient::HChannelJoinPart(IRCMessage message)
 {
     std::string channel = message.parameters.at(0);
     std::string action = message.command == "JOIN" ? "joins" : "leaves";
@@ -85,12 +82,5 @@ void IRCClient::HServerMessage(IRCMessage message)
     for (; itr != message.parameters.end(); ++itr)
         std::cout << *itr << " ";
     std::cout << std::endl;
-    /*if (message.parameters.empty())
-        return;
-
-    for (int i = message.parameters.begin(); i != message.parameters.end(); i++) {
-        std::cout << *i << " ";
-    }
-    std::cout << std::endl;
-    */
+    
 }

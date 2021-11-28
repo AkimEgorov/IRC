@@ -1,5 +1,5 @@
-#ifndef _IRCSOCKET_H
-#define _IRCSOCKET_H
+#ifndef _SOCKET_H
+#define _SOCKET_H
 
 #include <iostream>
 #include <sstream>
@@ -17,12 +17,12 @@
 class IRCSocket
 {
 public:
-    bool Init();
+    bool Init();  //  socket creation
 
-    bool Connect(char const* host, int port);
-    void Disconnect();
+    bool Connect(char const* host, int port);//  server connection
+    void Disconnect(); //  Disconnect from server
 
-    bool Connected() { return _connected; };
+    bool Connected() { return _connected; }; //  connected to the server
 
     bool SendData(char const* data);
     std::string ReceiveData();

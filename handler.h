@@ -1,13 +1,9 @@
-//
-// Created by itmoster on 27.11.2021.
-//
-
-#ifndef IRC_HANDLER_H
-#define IRC_HANDLER_H
+#ifndef HANDLER_H
+#define HANDLER_H
 
 #include "client.h"
 
-#define N_IRC_CMD 24
+#define N_IRC_CMD 25
 
 struct cmdHandler {
     std::string command;
@@ -28,4 +24,4 @@ inline int GetCommandHandler(std::string command)
 }
 
 
-#endif //IRC_HANDLER_H
+#endif //HANDLER_H
