@@ -4,6 +4,7 @@
 #include <map>
 #include <algorithm>
 #include "client.h"
+#include "thread.h"
 
 volatile bool running;
 
@@ -89,6 +90,23 @@ void joinCommand(std::string channel, IRCClient* client)
 }
 
 
+ThreadReturn inputThread(void* client)
+{
+    std::string command;
+
+    while (true)
+    {
+        getline(std::cin, command);
+        ((IRCClient*)client)->SendIRC(command);
+
+        if (command == "quit")
+            break;
+    }
+
+    pthread_exit(NULL);
+}
+
+
 int main(int argc, char* argv[])
 {
     if (argc < 3)
@@ -108,6 +126,12 @@ int main(int argc, char* argv[])
         user = argv[4];
 
     IRCClient client;
+
+    //client.Debug(true);
+
+    // Start the input thread
+    Thread thread;
+    thread.Start(&inputThread, &client);
 
     if (client.InitSocket())
     {
