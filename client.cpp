@@ -117,7 +117,7 @@ void IRCClient::Parse(std::string data)
     // replies to the server to the message PING
     if (command == "PING")
     {
-        std::cout << "Pong!" << std::endl;
+        //std::cout << "Pong!" << std::endl;
         SendIRC("PONG :" + parameters.at(0));
         return;
     }
@@ -132,5 +132,5 @@ void IRCClient::Parse(std::string data)
         cmdHandler& cmdHandler = ircCommandTable[commandIndex];
         (this->*cmdHandler.handler)(ircMessage);
     }
-
+    
 }

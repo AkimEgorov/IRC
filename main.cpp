@@ -1,15 +1,30 @@
 #include <iostream>
 #include "client.h"
 #include "thread.h"
+#include "console_handler.h"
 
 ThreadReturn inputThread(void* client)
 {
     std::string command;
+    ConsoleCommandHandler commandHandler;
+
+    commandHandler.AddCommand("msg", 2, &msgCommand);
+    commandHandler.AddCommand("join", 1, &joinCommand);
+    commandHandler.AddCommand("part", 1, &partCommand);
+    commandHandler.AddCommand("help", 0, &helpCommand);
+    commandHandler.AddCommand("invt", 2, &invtCommand);
+    commandHandler.AddCommand("kick", 2, &kickCommand);
 
     while (true)
     {
         getline(std::cin, command);
-        ((IRCClient*)client)->SendIRC(command);
+        if (command == "")
+            continue;
+
+        if (command[0] == '/')
+            commandHandler.ParseCommand(command, (IRCClient*)client);
+        else
+            ((IRCClient*)client)->SendIRC(command);
 
         if (command == "quit")
             break;

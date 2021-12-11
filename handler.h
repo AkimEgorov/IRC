@@ -3,7 +3,7 @@
 
 #include "client.h"
 
-#define N_IRC_CMD 25
+#define N_IRC_CMD 27
 
 struct cmdHandler {
     std::string command;

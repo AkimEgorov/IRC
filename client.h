@@ -96,6 +96,8 @@ public:
     void HChannelUList(IRCMessage /*message*/);
     void HNicknameCurrent(IRCMessage /*message*/);
     void HServerMessage(IRCMessage /*message*/);
+    void HInviteMessage(IRCMessage /*message*/);
+    void HKickMessage(IRCMessage /*message*/);
 
 
 

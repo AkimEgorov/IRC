@@ -3,6 +3,8 @@
 cmdHandler ircCommandTable[N_IRC_CMD] =
         {
                 { "PRIVMSG",            &IRCClient::HPrivMsg                   },
+                { "INVITE",             &IRCClient::HInviteMessage             },
+                { "KICK",               &IRCClient::HKickMessage               },
                 { "JOIN",               &IRCClient::HChannelJoinPart           },
                 { "PART",               &IRCClient::HChannelJoinPart           },
                 { "NICK",               &IRCClient::HNickChange                },
@@ -83,4 +85,19 @@ void IRCClient::HServerMessage(IRCMessage message)
         std::cout << *itr << " ";
     std::cout << std::endl;
     
+}
+
+void IRCClient::HInviteMessage(IRCMessage message)
+{
+    std::string nick = message.prefix.nick;
+    std::string channel = message.parameters.at(1);
+    std::cout << nick << " invites you to join " << channel << std::endl;
+}
+
+void IRCClient::HKickMessage(IRCMessage message)
+{
+    std::string nick1 = message.prefix.nick;
+    std::string channel = message.parameters.at(0);
+    std::string nick2 = message.parameters.at(1);
+    std::cout << nick1 << " removed " << nick2 << " from channel " << channel << std::endl;
 }
