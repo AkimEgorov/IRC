@@ -35,6 +35,11 @@ void ConsoleCommandHandler::ParseCommand(std::string command, IRCClient* client)
         return;
     }
 
+    if (++argCount < itr->second.argCount)
+    {
+        std::cout << "Insuficient arguments" << std::endl;
+        return;
+    }
     (*(itr->second.handler))(args, client);
 }
 
