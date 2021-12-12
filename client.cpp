@@ -132,5 +132,8 @@ void IRCClient::Parse(std::string data)
         cmdHandler& cmdHandler = ircCommandTable[commandIndex];
         (this->*cmdHandler.handler)(ircMessage);
     }
-    
+    else
+    {
+        std::cout << original << std::endl;
+    }
 }
