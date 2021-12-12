@@ -28,7 +28,12 @@ void ConsoleCommandHandler::ParseCommand(std::string command, IRCClient* client)
     std::transform(name.begin(), name.end(), name.begin(), towlower);
 
     std::map<std::string, CommandEntry>::const_iterator itr = _commands.find(name);
-    
+
+    if (itr == _commands.end())
+    {
+        std::cout << "No such command" << std::endl;
+        return;
+    }
 
     (*(itr->second.handler))(args, client);
 }
