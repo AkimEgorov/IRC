@@ -1,4 +1,4 @@
-#include "handler.h"
+#include "handler.hpp"
 
 cmdHandler ircCommandTable[N_IRC_CMD] =
         {

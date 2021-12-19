@@ -1,5 +1,4 @@
-#ifndef _SOCKET_H
-#define _SOCKET_H
+#pragma once
 
 #include <iostream>
 #include <sstream>
@@ -32,4 +31,3 @@ private:
 
     bool _connected;
 };
-#endif

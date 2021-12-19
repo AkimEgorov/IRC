@@ -1,7 +1,7 @@
 #include <iostream>
-#include "socket.h"
-#include "client.h"
-#include "handler.h"
+#include "socket.hpp"
+#include "client.hpp"
+#include "handler.hpp"
 
 // cheecks socket initialization
 bool IRCClient::InitSocket()

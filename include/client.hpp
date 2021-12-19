@@ -1,9 +1,8 @@
-#ifndef _CLIENT_H
-#define _CLIENT_H
+#pragma once
 
 #include <string>
 #include <vector>
-#include "socket.h"
+#include "socket.hpp"
 
 class IRCClient;
 
@@ -109,4 +108,3 @@ private:
     std::string _user;
 
 };
-#endif

@@ -1,11 +1,11 @@
-#ifndef _CONSOLE_HANDLER_H
-#define _CONSOLE_HANDLER_H
+#pragma once
+
 
 #include <cstdlib>
 #include <map>
 #include <algorithm>
-#include "thread.h"
-#include "client.h"
+#include "thread.hpp"
+#include "client.hpp"
 
 
 class ConsoleCommandHandler
@@ -37,4 +37,3 @@ void invtCommand(std::string arguments, IRCClient* client);
 void kickCommand(std::string arguments, IRCClient* client);
 
 void helpCommand(std::string channel, IRCClient* client);
-#endif

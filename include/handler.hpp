@@ -1,7 +1,7 @@
-#ifndef HANDLER_H
-#define HANDLER_H
+#pragma once
 
-#include "client.h"
+
+#include "client.hpp"
 
 #define N_IRC_CMD 27
 
@@ -23,5 +23,3 @@ inline int GetCommandHandler(std::string command)
     return N_IRC_CMD;
 }
 
-
-#endif //HANDLER_H

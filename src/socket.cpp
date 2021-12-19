@@ -1,6 +1,6 @@
 #include <cstring>
 #include <fcntl.h>
-#include "socket.h"
+#include "socket.hpp"
 
 #define MAXDATASIZE 4096
 

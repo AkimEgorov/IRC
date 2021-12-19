@@ -1,7 +1,7 @@
 #include <iostream>
-#include "client.h"
-#include "thread.h"
-#include "console_handler.h"
+#include "client.hpp"
+#include "thread.hpp"
+#include "console_handler.hpp"
 
 ThreadReturn inputThread(void* client)
 {
@@ -36,21 +36,22 @@ ThreadReturn inputThread(void* client)
 
 int main(int argc, char* argv[])
 {
-    char* host;
-    char* ports;
-    std::string nick;
-    std::string user;
-    std::cout << "Enter server host: ";
-    std::cin >> host;
-    std::cout << "Enter server port: ";
-    std::cin >> ports;
-    std::cout << "Enter nickname: ";
-    std::cin >> nick;
-    std::cout << "Enter username: ";
-    std::cin >> user;
+    if (argc < 3)
+    {
+        std::cout << "Insuficient parameters: host port [nick] [user]" << std::endl;
+        return 1;
+    }
 
-    int port = atoi(ports);
-    
+    char* host = argv[1];
+    int port = atoi(argv[2]);
+    std::string nick("MyIRCClient");
+    std::string user("IRCClient");
+
+    if (argc >= 4)
+        nick = argv[3];
+    if (argc >= 5)
+        user = argv[4];
+
     IRCClient client;
 
     // Start the input thread

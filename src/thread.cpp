@@ -1,4 +1,4 @@
-#include "thread.h"
+#include "thread.hpp"
 
 Thread::Thread() : _threadId(0) {}
 
