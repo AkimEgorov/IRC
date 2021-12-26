@@ -1,5 +1,7 @@
 #include "handler.hpp"
 
+Ncurses win;
+
 cmdHandler ircCommandTable[N_IRC_CMD] =
         {
                 { "PRIVMSG",            &IRCClient::HPrivMsg                   },
@@ -81,9 +83,16 @@ void IRCClient::HServerMessage(IRCMessage message)
 
     std::vector<std::string>::const_iterator itr = message.parameters.begin();
     ++itr; // skip the first parameter (our nick)
+    std::string out;
     for (; itr != message.parameters.end(); ++itr)
-        std::cout << *itr << " ";
-    std::cout << std::endl;
+    {
+        out = *itr + " ";
+        win.Output(win.window, win.responses, out);
+
+        //std::cout << *itr << " ";
+    }
+    //std::cout << std::endl;
+
     
 }
 

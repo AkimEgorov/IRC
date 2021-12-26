@@ -2,7 +2,7 @@
 #include <ncurses.h>
 #include "thread.hpp"
 #include "console_handler.hpp"
-#include <ncurses.h>
+#include "ncurses.hpp"
 
 ThreadReturn inputThread(void* client)
 {
@@ -34,7 +34,7 @@ ThreadReturn inputThread(void* client)
     pthread_exit(NULL);
 }
 
-void DisplayChat(WINDOW *window){
+ void Ncurses::DisplayChat(WINDOW *window){
   const int column{1}; 
   int row{1}; 
   
@@ -90,13 +90,14 @@ int main(int argc, char* argv[])
     start_color();
 
     std::vector<std::thread> threads;
-    std::vector<std::string> responses ; 
+    //std::vector<std::string> responses ; 
 
     int x_max = getmaxx(stdscr);
     int y_max = getmaxy(stdscr);
-    int text_x{1}, text_y{1};
-
-    WINDOW *window = newwin(y_max * text_y, x_max * text_x, 0, 0);
+    //int text_x{1}, text_y{1};
+    Ncurses win;
+    win.CreateWin(y_max, x_max, 0, 0);
+    //WINDOW *window = newwin(y_max, x_max, 0, 0);
     viewwin view;
     for (int i=0; i < 4; i++){
         view._fields.emplace_back("");
@@ -118,7 +119,7 @@ int main(int argc, char* argv[])
             {
                 std::cout << "Logged." << std::endl;
                 while (client.Connected()){
-                    DisplayChat(window);
+                    win.DisplayChat(win.window);
                     std::string message_text; 
   
   		    std::string checker = ""; 
@@ -128,9 +129,9 @@ int main(int argc, char* argv[])
     			text.clear(); 
   		    }
   		    refresh();
- 		    move(window->_maxy - 1, 16);
+ 		    move(win.window->_maxy - 1, 16);
                     client.ReceiveData();
-                    wrefresh(window);
+                    wrefresh(win.window);
                     refresh();
                     }
                     

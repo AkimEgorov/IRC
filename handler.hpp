@@ -2,6 +2,7 @@
 
 
 #include "client.hpp"
+#include "ncurses.hpp"
 
 #define N_IRC_CMD 27
 
