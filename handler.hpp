@@ -7,7 +7,7 @@
 
 struct cmdHandler {
     std::string command;
-    void (IRCClient::*handler)(IRCMessage /*message*/);
+    std::string (IRCClient::*handler)(IRCMessage /*message*/);
 };
 
 extern cmdHandler ircCommandTable[N_IRC_CMD];

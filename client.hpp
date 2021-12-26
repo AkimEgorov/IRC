@@ -84,19 +84,19 @@ public:
     // functions for working with irc messages
     bool SendIRC(std::string /*data*/);
     bool Login(std::string /*nick*/, std::string /*user*/, std::string /*password*/ = std::string());
-    void Parse(std::string /*data*/);
-    void ReceiveData();
+    std::string Parse(std::string /*data*/);
+    std::string ReceiveData();
 
     // irc messege handlers
-    void HPrivMsg(IRCMessage /*message*/);
-    void HChannelJoinPart(IRCMessage /*message*/);
-    void HNickChange(IRCMessage /*message*/);
-    void HUserQuit(IRCMessage /*message*/);
-    void HChannelUList(IRCMessage /*message*/);
-    void HNicknameCurrent(IRCMessage /*message*/);
-    void HServerMessage(IRCMessage /*message*/);
-    void HInviteMessage(IRCMessage /*message*/);
-    void HKickMessage(IRCMessage /*message*/);
+    std::string HPrivMsg(IRCMessage /*message*/);
+    std::string HChannelJoinPart(IRCMessage /*message*/);
+    std::string HNickChange(IRCMessage /*message*/);
+    std::string HUserQuit(IRCMessage /*message*/);
+    std::string HChannelUList(IRCMessage /*message*/);
+    std::string HNicknameCurrent(IRCMessage /*message*/);
+    std::string HServerMessage(IRCMessage /*message*/);
+    std::string HInviteMessage(IRCMessage /*message*/);
+    std::string HKickMessage(IRCMessage /*message*/);
 
 
 

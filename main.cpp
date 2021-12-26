@@ -2,10 +2,11 @@
 #include "client.hpp"
 #include "thread.hpp"
 #include "console_handler.hpp"
+#include "interface.hpp"
 
 ThreadReturn inputThread(void* client)
 {
-    std::string command;
+    char command[200];
     ConsoleCommandHandler commandHandler;
 
     commandHandler.AddCommand("msg", 2, &msgCommand);
@@ -17,8 +18,8 @@ ThreadReturn inputThread(void* client)
 
     while (true)
     {
-        getline(std::cin, command);
-        if (command == "")
+        wgetstr(stdscr,(command));
+        if (strcmp(command,"")==0)
             continue;
 
         if (command[0] == '/')
@@ -26,7 +27,7 @@ ThreadReturn inputThread(void* client)
         else
             ((IRCClient*)client)->SendIRC(command);
 
-        if (command == "quit")
+        if (strcmp(command,"quit")==0)
             break;
     }
 
@@ -38,7 +39,7 @@ int main(int argc, char* argv[])
 {
     if (argc < 3)
     {
-        std::cout << "Insuficient parameters: host port [nick] [user]" << std::endl;
+        printw("Insuficient parameters: host port [nick] [user]");
         return 1;
     }
 
@@ -60,23 +61,22 @@ int main(int argc, char* argv[])
 
     if (client.InitSocket())
     {
-        std::cout << "Socket initialized. Connecting..." << std::endl;
+        printw("Socket initialized. Connecting...");
 
         if (client.Connect(host, port))
         {
-            std::cout << "Connected. Loggin in..." << std::endl;
+            printw("Connected. Loggin in...");
 
             if (client.Login(nick, user))
             {
-                std::cout << "Logged." << std::endl;
-                while (client.Connected())
-                    client.ReceiveData();
+                printw("Logged.");
+                Display(&client);
             }
 
             if (client.Connected())
                 client.Disconnect();
 
-            std::cout << "Disconnected." << std::endl;
+            printw("Disconnected.");
         }
     }
 }

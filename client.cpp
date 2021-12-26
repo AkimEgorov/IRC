@@ -45,7 +45,7 @@ bool IRCClient::Login(std::string nick, std::string user, std::string password)
 }
 
 // process the received data
-void IRCClient::ReceiveData()
+std::string IRCClient::ReceiveData()
 {
     std::string buffer = _socket.ReceiveData();
 
@@ -57,10 +57,11 @@ void IRCClient::ReceiveData()
             line = line.substr(0, line.size() - 1);
         Parse(line);
     }
+    return Parse(line);
 }
 
 // parcer for messages
-void IRCClient::Parse(std::string data)
+std::string IRCClient::Parse(std::string data)
 {
     std::string original(data);
     IRCCommandPrefix cmdPrefix;
@@ -109,9 +110,9 @@ void IRCClient::Parse(std::string data)
     // disconnets client from server if received an ERROR message 
     if (command == "ERROR")
     {
-        std::cout << original << std::endl;
+        //std::cout << original << std::endl;
         Disconnect();
-        return;
+        return original;
     }
 
     // replies to the server to the message PING
@@ -119,21 +120,23 @@ void IRCClient::Parse(std::string data)
     {
         //std::cout << "Pong!" << std::endl;
         SendIRC("PONG :" + parameters.at(0));
-        return;
+        return "";
     }
 
     // create an object of class IRCMessage
     IRCMessage ircMessage(command, cmdPrefix, parameters);
 
     // handles commands
-    int commandIndex = GetCommandHandler(command);
-    if (commandIndex < N_IRC_CMD)
-    {
-        cmdHandler& cmdHandler = ircCommandTable[commandIndex];
-        (this->*cmdHandler.handler)(ircMessage);
-    }
-    else
-    {
-        std::cout << original << std::endl;
-    }
+    //int commandIndex = GetCommandHandler(command);
+    //if (commandIndex < N_IRC_CMD)
+    //{
+        //cmdHandler& cmdHandler = ircCommandTable[commandIndex];
+        //(this->*cmdHandler.handler)(ircMessage);
+    //}
+    //else
+    //{
+        //std::cout << original << std::endl;
+        return original;
+    //}
+    //return original;
 }

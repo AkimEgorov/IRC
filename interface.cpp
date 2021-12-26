@@ -42,18 +42,13 @@ void DisplayMessages(WINDOW *window, viewwin *view,std::vector<std::string> *res
   mtx.unlock();
   refresh();
   move(window->_maxy - 1, 16);                 
-  char str[100];
-  int ch;
-  getstr(str);
   refresh();
-  
-  responses->push_back(str);
  
   int response_counter=1;
   int counter=0;
   int diff =0;
   
-  if (responses->size() >= window->_maxy - 3) {
+  if ((int)responses->size() >= window->_maxy - 3) {
     diff = responses->size() - window->_maxy + 3; 
   }
   for (std::string &response : *responses) {
@@ -70,7 +65,7 @@ void DisplayMessages(WINDOW *window, viewwin *view,std::vector<std::string> *res
   }
 }
 
-void Display(){
+void Display(IRCClient *client){
     initscr();
     cbreak();
     echo();
@@ -89,7 +84,7 @@ void Display(){
     }
     
     std::vector<std::string> responses ; 
-    while (TRUE) {
+    while (client->Connected()) {
         init_pair(1, COLOR_BLUE, COLOR_BLACK);
         init_pair(2, COLOR_GREEN, COLOR_BLACK);
         init_pair(3, COLOR_RED, COLOR_BLACK);
@@ -106,6 +101,8 @@ void Display(){
         
         DisplayChat(chat_window);
         refresh();
+        std::string temp = client->ReceiveData();
+  	responses.push_back(temp);
         DisplayMessages(chat_window,  &view, &responses);
 	
 	mtx.lock();
@@ -121,6 +118,3 @@ void Display(){
     endwin();
 }
 
-int main(){
-    Display();
-}
