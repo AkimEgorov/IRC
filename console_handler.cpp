@@ -1,5 +1,6 @@
 #include "console_handler.hpp"
 
+
 bool ConsoleCommandHandler::AddCommand(std::string name, int argCount, void (*handler)(std::string /*params*/, IRCClient* /*client*/))
 {
     CommandEntry entry;

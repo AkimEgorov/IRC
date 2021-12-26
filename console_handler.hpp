@@ -4,8 +4,12 @@
 #include <cstdlib>
 #include <map>
 #include <algorithm>
+#include <thread>
+#include <ncurses.h>
 #include "thread.hpp"
 #include "client.hpp"
+
+
 
 
 class ConsoleCommandHandler
@@ -25,6 +29,9 @@ private:
     std::map<std::string, CommandEntry> _commands;
 };
 
+struct viewwin {
+    std::vector<std::string> _fields;
+};
 
 void msgCommand(std::string arguments, IRCClient* client);
 
@@ -37,3 +44,5 @@ void invtCommand(std::string arguments, IRCClient* client);
 void kickCommand(std::string arguments, IRCClient* client);
 
 void helpCommand(std::string channel, IRCClient* client);
+
+void DisplayChat(WINDOW *window);
