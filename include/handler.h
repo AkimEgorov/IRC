@@ -1,9 +1,8 @@
-#pragma once
+#ifndef HANDLER_H
+#define HANDLER_H
+#include "client.h"
 
-
-#include "client.hpp"
-
-#define N_IRC_CMD 27
+#define N_IRC_CMD 29
 
 struct cmdHandler {
     std::string command;
@@ -23,3 +22,5 @@ inline int GetCommandHandler(std::string command)
     return N_IRC_CMD;
 }
 
+
+#endif //HANDLER_H

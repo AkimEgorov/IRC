@@ -1,4 +1,4 @@
-#include "console_handler.hpp"
+#include "console_handler.h"
 
 bool ConsoleCommandHandler::AddCommand(std::string name, int argCount, void (*handler)(std::string /*params*/, IRCClient* /*client*/))
 {
@@ -14,7 +14,7 @@ void ConsoleCommandHandler::ParseCommand(std::string command, IRCClient* client)
 {
     if (_commands.empty())
     {
-        std::cout << "No commands available." << std::endl;
+        std::cout <<"\x1b[31;1m"<< "No commands available."<<"\x1b[0m" << std::endl;
         return;
     }
 
@@ -31,13 +31,13 @@ void ConsoleCommandHandler::ParseCommand(std::string command, IRCClient* client)
 
     if (itr == _commands.end())
     {
-        std::cout << "No such command" << std::endl;
+        std::cout <<"\x1b[31;1m"<< "No such command" <<"\x1b[0m" << std::endl;
         return;
     }
 
     if (++argCount < itr->second.argCount)
     {
-        std::cout << "Insuficient arguments" << std::endl;
+        std::cout <<"\x1b[31;1m"<< "Insuficient arguments"<<"\x1b[0m" << std::endl;
         return;
     }
     (*(itr->second.handler))(args, client);
@@ -47,8 +47,14 @@ void msgCommand(std::string arguments, IRCClient* client)
 {
     std::string to = arguments.substr(0, arguments.find(" "));
     std::string text = arguments.substr(arguments.find(" ") + 1);
-
-    std::cout << "To " + to + ": " + text << std::endl;
+    if (to[0] == '#')
+    {
+        std::cout << "To " << "\x1b[35;2m" << to << "\x1b[0m" << ":" + text << std::endl;
+    }
+    else
+    {
+        std::cout << "To " << "\x1b[34;2m" << "<" << to << ">" << "\x1b[0m" << ":" + text << std::endl;
+    }
     client->SendIRC("PRIVMSG " + to + " :" + text);
 }
 
@@ -74,7 +80,7 @@ void invtCommand(std::string arguments, IRCClient* client)
     std::string channel = arguments.substr(arguments.find(" ") + 1);
     if (channel[0] != '#')
         channel = "#" + channel;
-    std::cout << "You invited " + name + " into channel " + channel << std::endl;
+    //std::cout << "You invited " + name + " into channel " + channel << std::endl;
     client->SendIRC("INVITE " + name + " " + channel);
 }
 
@@ -87,9 +93,16 @@ void kickCommand(std::string arguments, IRCClient* client)
     //std::cout << "You kicked " << nick << " from channel " << channel << std::endl;
     client->SendIRC("KICK " + channel + " " + nick);
 }
+
+void quitCommand(std::string , IRCClient* client)
+{
+    client->SendIRC("QUIT");
+}
+
+
 void helpCommand(std::string, IRCClient*)
 {
-    std::cout << "Available commands:" << std::endl << std::endl;
+    std::cout << "\x1b[37;4m"<<"Available commands:" <<"\x1b[0m"<< std::endl << std::endl;
     std::cout << "Join channel:             /join <channel_name>" << std::endl;
     std::cout << "Leave channel:            /part <channel_name>" << std::endl;
     std::cout << "Write a message:          /msg <msg_target> <text to be sent>" << std::endl;

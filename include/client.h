@@ -1,8 +1,10 @@
-#pragma once
+#ifndef _CLIENT_H
+#define _CLIENT_H
 
 #include <string>
 #include <vector>
-#include "socket.hpp"
+#include "socket.h"
+#include "ncurses.h"
 
 class IRCClient;
 
@@ -97,6 +99,7 @@ public:
     void HServerMessage(IRCMessage /*message*/);
     void HInviteMessage(IRCMessage /*message*/);
     void HKickMessage(IRCMessage /*message*/);
+    void HServerInvtMessage(IRCMessage /*message*/);
 
 
 
@@ -108,3 +111,4 @@ private:
     std::string _user;
 
 };
+#endif

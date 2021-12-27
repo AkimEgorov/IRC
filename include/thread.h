@@ -1,5 +1,5 @@
-#pragma once
-
+#ifndef _THREAD_H
+#define _THREAD_H
 
 
 #include <pthread.h>
@@ -19,3 +19,4 @@ public:
     bool Start(ThreadFunction, void* );    //  creates a new stream
 };
 
+#endif

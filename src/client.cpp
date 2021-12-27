@@ -1,7 +1,7 @@
 #include <iostream>
-#include "socket.hpp"
-#include "client.hpp"
-#include "handler.hpp"
+#include "socket.h"
+#include "client.h"
+#include "handler.h"
 
 // cheecks socket initialization
 bool IRCClient::InitSocket()
@@ -109,7 +109,7 @@ void IRCClient::Parse(std::string data)
     // disconnets client from server if received an ERROR message 
     if (command == "ERROR")
     {
-        std::cout << original << std::endl;
+        std::cout << "\x1b[31m" << original << "\x1b[37m" << std::endl;
         Disconnect();
         return;
     }
