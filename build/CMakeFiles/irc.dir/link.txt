@@ -1,1 +1,0 @@
-/usr/bin/c++  -Wall -pthread  -rdynamic CMakeFiles/irc.dir/src/client.cpp.o CMakeFiles/irc.dir/src/console_handler.cpp.o CMakeFiles/irc.dir/src/handler.cpp.o CMakeFiles/irc.dir/src/main.cpp.o CMakeFiles/irc.dir/src/socket.cpp.o CMakeFiles/irc.dir/src/thread.cpp.o -o irc 

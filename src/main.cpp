@@ -38,6 +38,7 @@ ThreadReturn inputThread(void* client)
 
 int main(int argc, char* argv[])
 {
+    /*
     if (argc < 3)
     {
         std::cout << "Insuficient parameters: host port [nick] [user]" << std::endl;
@@ -53,12 +54,9 @@ int main(int argc, char* argv[])
         nick = argv[3];
     if (argc >= 5)
         user = argv[4];
-
-    IRCClient client;
-
-    /*
-    char* host;
-    char* ports;
+    */
+    char* host = (char*) malloc(5);
+    char* ports = (char*) malloc(5);
     std::string nick;
     std::string user;
     std::cout << "Enter server host: ";
@@ -73,7 +71,6 @@ int main(int argc, char* argv[])
     int port = atoi(ports);
     
     IRCClient client;
-    */
 
     // Start the input thread
     Thread thread;
