@@ -37,4 +37,6 @@ void invtCommand(std::string arguments, IRCClient* client);
 void kickCommand(std::string arguments, IRCClient* client);
 
 void helpCommand(std::string channel, IRCClient* client);
+
+void quitCommand(std::string channel, IRCClient* client);
 #endif

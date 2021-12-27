@@ -98,6 +98,7 @@ public:
     void HServerMessage(IRCMessage /*message*/);
     void HInviteMessage(IRCMessage /*message*/);
     void HKickMessage(IRCMessage /*message*/);
+    void HServerInvtMessage(IRCMessage /*message*/);
 
 
 

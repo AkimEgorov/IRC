@@ -74,7 +74,7 @@ void invtCommand(std::string arguments, IRCClient* client)
     std::string channel = arguments.substr(arguments.find(" ") + 1);
     if (channel[0] != '#')
         channel = "#" + channel;
-    std::cout << "You invited " + name + " into channel " + channel << std::endl;
+    //std::cout << "You invited " + name + " into channel " + channel << std::endl;
     client->SendIRC("INVITE " + name + " " + channel);
 }
 
@@ -87,6 +87,13 @@ void kickCommand(std::string arguments, IRCClient* client)
     //std::cout << "You kicked " << nick << " from channel " << channel << std::endl;
     client->SendIRC("KICK " + channel + " " + nick);
 }
+
+void quitCommand(std::string , IRCClient* client)
+{
+    client->SendIRC("QUIT");
+}
+
+
 void helpCommand(std::string, IRCClient*)
 {
     std::cout << "Available commands:" << std::endl << std::endl;

@@ -1,2 +1,0 @@
-# IRC
-IRC chat project

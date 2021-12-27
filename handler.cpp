@@ -29,6 +29,8 @@ cmdHandler ircCommandTable[N_IRC_CMD] =
                 { "375",                &IRCClient::HServerMessage             },
                 { "376",                &IRCClient::HServerMessage             },
                 { "439",                &IRCClient::HServerMessage             },
+                { "341",                &IRCClient::HServerInvtMessage         },
+                { "401",                &IRCClient::HServerMessage             },
         };
 
 void IRCClient::HPrivMsg(IRCMessage message)
@@ -82,7 +84,9 @@ void IRCClient::HServerMessage(IRCMessage message)
     std::vector<std::string>::const_iterator itr = message.parameters.begin();
     ++itr; // skip the first parameter (our nick)
     for (; itr != message.parameters.end(); ++itr)
+    {
         std::cout << *itr << " ";
+    }
     std::cout << std::endl;
     
 }
@@ -100,4 +104,11 @@ void IRCClient::HKickMessage(IRCMessage message)
     std::string channel = message.parameters.at(0);
     std::string nick2 = message.parameters.at(1);
     std::cout << nick1 << " removed " << nick2 << " from channel " << channel << std::endl;
+}
+
+void IRCClient::HServerInvtMessage(IRCMessage message)
+{
+    std::string nick = message.parameters.at(1);
+    //std::string channel = message.parameters.at(2);
+    std::cout << "You invited " << nick << " into the channel" << std::endl;
 }
