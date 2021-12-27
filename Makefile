@@ -1,7 +1,7 @@
 CC=g++
 CFLAGS=-c -Wall
-LDFLAGS= -lpthread
-SOURCES=client.cpp console_handler.cpp handler.cpp main.cpp socket.cpp thread.cpp
+LDFLAGS= -lpthread -lncurses
+SOURCES=client.cpp console_handler2.cpp handler.cpp main.cpp socket2.cpp thread.cpp
 OBJECTS=$(SOURCES:.cpp=.o)
 EXECUTABLE=irc
 

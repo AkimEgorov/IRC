@@ -109,7 +109,7 @@ void IRCClient::Parse(std::string data)
     // disconnets client from server if received an ERROR message 
     if (command == "ERROR")
     {
-        std::cout << original << std::endl;
+        std::cout << "\x1b[31m" << original << "\x1b[37m" << std::endl;
         Disconnect();
         return;
     }

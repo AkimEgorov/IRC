@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include "socket.h"
+#include "ncurses.h"
 
 class IRCClient;
 
